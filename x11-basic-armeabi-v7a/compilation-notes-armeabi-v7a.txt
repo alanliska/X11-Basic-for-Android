@@ -1,0 +1,38 @@
+******************************************************
+We need:
+(1) an authentic Android >=10 (in my case 11) device (with supported ABIs armeabi-v7a, arm64-v8a);
+(2) Pydroid3 (https://play.google.com/store/apps/details?id=ru.iiec.pydroid3&hl=en&gl=US);
+(3) X11-Basic source code (https://github.com/kollokollo/X11Basic).
+(4) precompiled GMP (https://gmplib.org/) libraries
+******************************************************
+Compilation procedure:
+(1) Install Pydroid3 (make sure that it contains the armeabi-v7a compiler), launch the app.
+(2) Change directory to the private app storage, i.e. /data/data/ru.iiec.pydroid3/app_HOME.
+(3) Unzip the X11-Basic source code along with the precompiled GMP libraries there, cd into src.
+In this particular case, libgmp.a and libgmp.so were placed into the gmp directory.
+(4) export LD_LIBRARY_FLAGS=$LD_LIBRARY_FLAGS:/data/data/ru.iiec.pydroid3/app_HOME/Xbasic-gcc-static/arm/gmp
+(5) ./configure LDFLAGS=-pie CPPFLAGS=-DANDROID
+(6) make static
+At this point, an error may occur - due to autoconf, which is unavailable in Pydroid3 - it is necessary to edit Makefile
+and remove the line with autoconf. Continue then with
+make static
+Next error concerns shmem, it is possible to bypass it by manual compilation
+gcc -Wall -g -O2 -DANDROID -std=c99 -c -o sysVstuff.o sysVstuff.c
+Continue with
+make static
+Finally, the library x11basic.a as well as the binaries [name].static are created
+BUT THEY ARE DYNAMICALLY LINKED TO libgmp.so !
+To create STATIC EXECUTABLES, compile manually again:
+gcc -Wall -O3 -pie -o xbasic.static_ main.o x11basic.a -lm -lpthread ../../gmp/libgmp.a
+strip xbasic.static_
+gcc -Wall -o xbvm.static_ xbvm.o x11basic.a -lm -lpthread ../../gmp/libgmp.a
+strip xbvm.static_
+gcc -Wall -o xb2c.debug_ xb2c_d.o functions_d.o tools.o keywords.o afunctions_d.o svariablen_d.o file.o io_basic.o sfunctions_d.o kommandos_d.o -lm -lpthread ../../gmp/libgmp.a
+cp xb2c.debug_ xb2c.static_
+strip xb2c.static_
+gcc -Wall -o xbbc.static_ xbbc.o bytecode.o x11basic.a -lm -lpthread ../../gmp/libgmp.a
+strip xbbc.static_
+The resulting executables [name].static_ are STATICALLY LINKED to libgmp.a, therefore they are working in a single Android shell command
+without necessity to define the additional LD_LIBRARY_PATH directory with libgmp.so. 
+******************************************************
+Compiled binaries - please see the Releases section.

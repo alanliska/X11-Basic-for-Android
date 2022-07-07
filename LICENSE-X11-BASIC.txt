@@ -1,0 +1,4 @@
+X11-BASIC is free software and comes with NO WARRANTY - read the file COPYING for details
+(Basically that means, free, open source, use and modify as you like, don't incorporate it into non-free software, no warranty of any sort, don't blame me if it doesn't work.)
+
+copied from http://x11-basic.sourceforge.net/ on 7th July 2022

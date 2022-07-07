@@ -1,0 +1,34 @@
+******************************************************
+We need:
+(1) an authentic Android <=4.4 (in my case 4.3) device
+OR
+Android 4.3 (armeabi-v7a) emulator (Android Studio);
+(2) Terminal IDE (https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/terminal-ide/terminalide-2.02.apk);
+(3) CCTools compilator set (gcc, g++) for Terminal IDE (https://github.com/mooring/cctools-gcc-for-terminal-IDE-on-Android);
+(3) X11-Basic source code (https://github.com/kollokollo/X11Basic).
+******************************************************
+Compilation procedure:
+(1) Install Terminal IDE, launch the app, install system, open the terminal. Install the CCTools compilator set inside. Verify the installation (e.g. invoke gcc-4.8).
+(2) Unzip the X11-Basic source code file cd into src.
+(3) IMPORTANT! Edit the file Makefile.in, change each occurence of /bin/sh to /system/bin/sh.
+In the similar way open the file configure, delete the lines with configure and autoconf, find the line with
+xbc.bas and add ../ before the original path to examples.
+(4) ./configure
+(5) IMPORTANT! open the generated Makefile, change CFLAGS to -fsigned-char -std=c99, remove -DUSE_X11,
+add -I. to INC, add sysexits.h (e.g. from https://sites.uclouvain.be/SystInfo/usr/include/sysexits.h.html)
+to src folder.
+(6) make static
+(7) During linking, an error (due to sysVstuff.o) will occur. Manually type
+gcc-4.8 -DANDROID -I. -g -O2 -std=c99 -c sysVstuff.c
+and continue with
+make static
+The library x11basic.a as well as the binaries xbbc.static, xbvm.static, xbasic.static and xb2c.static
+should be produced. The binaries are static and run in terminal environment as well as in a single 
+command inside of an Android app, e.g.:
+exec(getApplicationInfo().nativeLibraryDir+"/libxbbc.so -o "+getFilesDir()+"/somefile.b "+getFilesDir()+"/somefile.bas");
+exec(getApplicationInfo().nativeLibraryDir+"/libxbvm.so "+getFilesDir()+"/somefile.b");
+etc.
+(lib___name___.so is the only permitted general mask of the precompiled binary files present inside 
+of jniLibs folder in frame of Android >=10 app)
+******************************************************
+Compiled binaries - please see the Releases section.
