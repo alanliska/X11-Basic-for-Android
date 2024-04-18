@@ -1,0 +1,432 @@
+
+Version history of X11-Basic
+============================
+
+In the beginning there were absurd plans, long sleepless nights, and incredible
+boredom.
+
+Very First Version (1990)
+--------------------------
+It was a Mailbox-Program with Basic features (only character-Graphics with
+Vt100EMU) on my ATARI ST (!).
+
+Version 0.1 First version with a version number    (1997)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- Mailbox-Program was rewritten in c on my Linux-PC
+- first X11-Commands
+
+Version 0.2 Alpha (1998)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- improved X11-Basic for use at the physics institute in Bonn
+- Fixed last Problems of the Parser (didn't like -1*(4-3) )
+- Added more X-features (redraw)
+- First portation to a HP-Workstation
+- Readline library in use
+
+Version 1.00 Beta (Mar 1999)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- Makefile and configure script adapted from STonX
+- True-color Displays
+- X rootwindow, multiple windows
+- INKEY$
+- First GPL-Distribution
+- FILESELECT,ALERT
+
+Version 1.01 (Jun 1999)
+~~~~~~~~~~~~~~~~~~~~~~
+- POINT()
+
+Version 1.02 (Jun 2000)
+~~~~~~~~~~~~~~~~~~~~~~
+- rsrc_load
+- shell, daemon
+
+Version 1.03 (Mar 2001)
+~~~~~~~~~~~~~~~~~~~~~~~
+- copyarea, sget, sput, get,put
+- fill-Patterns
+- drop down menues
+- String-Variables may now contain nul-characters.
+- POKE,DPOKE,LPOKE,EVEN(),ODD()
+- LINK,UNLINK
+- CVI(),CVD(),CVF(),CVL()
+- MKI$(),MKD$(),MKL$(),MKF$()
+- ON x GOSUB proc1,proc2,...
+- ON x GOTO label1,label2,...
+- INSTR(),RINSTR()
+
+Version 1.04 (Apr. 2001)
+~~~~~~~~~~~~~~~~~~~~~~~~
+- splitted off shared library libx11basic.so (300kB)
+- bug fixed which caused print a,b to segmentation fault
+- DUMP "#"
+- SYM_ADR()
+- CALL, EXEC, EXEC()  with parameter list
+- DUMP "K" DUMP "F"
+
+Version 1.05 (Aug. 2001)
+~~~~~~~~~~~~~~~~~~~~~~~~
+- PRINT USING
+- SYSTEM$()
+- GLOB()
+- RBOX, PRBOX
+- EDIT, SAVE
+- HELP
+- new system errors
+- started to translate everything into english
+
+Version 1.06 (Jan. 2002)
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+- included serial device support
+- improved FILESELECT
+- modified ALERT
+- improved COLOR
+- FORM_DIAL(), FORM_DO(), OBJC_DRAW()
+- GPRINT
+
+Version 1.07 (Aug. 2002)
+~~~~~~~~~~~~~~~~~~~~~~~~
+- Fehler mit Exponentialdarstellungen von Zahlen mit negativem Exponent
+  ist nun endlich behoben !!!
+- Anbindung an tine-Bibliothek und Kontrollsystem ist nun moeglich
+
+Version 1.08 (Jan. 2003)
+~~~~~~~~~~~~~~~~~~~~~~~~
+- Support for tine-library
+- a first MS-WINDOWS version is now available
+- some new functions
+- FIT and FIT_LINEAR
+- SORT command
+There was a bug introduced in the MENU command. Fixed it in release 1.08-4.
+
+Version 1.09 (June 2003)
+~~~~~~~~~~~~~~~~~~~~~~~~
+- ANSI-Basic to X11-Basic converter included
+- New example programs
+- updated man-page and documentation
+- new SOUND command
+- EVAL, EVAL()
+- modified serial line support
+- modified the configure procedure
+- some modifications for portability
+- will now compile on FreeBSD and CYGWIN
+
+Version 1.10 (Feb 2004)
+~~~~~~~~~~~~~~~~~~~~~~~~
+- new REPLACE$() function 
+- improved speed 
+- bug fixed in ROUND() function
+- fixed bug in PUT_BITMAP
+- fixed bug in serial device handling
+- added sysvars COLS and ROWS
+- new INODE/DEVICE/MODE/NLINK/SIZE file functions
+
+Version 1.11 (Oct 2004)
+~~~~~~~~~~~~~~~~~~~~~~~~
+- Parser now accepts unique short commands
+- fixed little bug in INPUT
+- new chapters in manual
+- new commands: TOPW, BOTTOMW, INFOW, FULLW, CLIP
+- found bug in ON ERROR and ON BREAK
+- new FILL command
+- changed TAB treatement in sourcecode
+- worked on TINE implementation
+- worked on the ARRAY functions
+- new SHL(), SHR() function
+
+Version 1.12 (Mar 2005)
+~~~~~~~~~~~~~~~~~~~~~~~~
+- fixed bug with DEFMARK
+- experimental LISTSELECT
+- worked on MATRIX functions: SOLVE(),INV(),DET()
+- OPEN "UU"  UDP-Sockets
+- CONNECT, SEND, RECEIVE
+- New String Functions: REVERSE$(), MTFE$(), MTFD$(), RLD$(), RLE$()
+- CRC()
+- New Code Engines: BETE$(), BWTD$(), COMPRESS$()
+
+Version 1.13 (Feb 2006)
+~~~~~~~~~~~~~~~~~~~~~~~~
+- fixed bug in INPUT$()
+- woked in the TINE implementation (TINELISTEN, TINEBROADCAST)
+- new MKA$(), CVA()
+- fixed bug in PAUSE/DELAY
+- implemented ioctl() function
+
+Version 1.14 (Apr 2007)
+~~~~~~~~~~~~~~~~~~~~~~~~
+- improved the init_program routines
+- woked on the bytecode compiler
+- new programs xbbc and xbvm  + man pages
+- the bytecodecompiler and virtual machine are still full of bugs
+- some sample programs can already be compiled to bytecode, 
+  they run 4 to 10 times faster 
+- Bug fixed which caused "Command  not allowed in interactive mode" errors
+  This bug was introduced in Version 1.14 since release 1
+- worked on the control system routines (DOOCS)
+- fixed bug with fgetc
+- crosscompiled it with arm-linux for embedded linux
+- new CHDIR command
+- new SPAWN command (does still not work as wanted)
+- created doocsxbasic modification to use the FLASH control system at DESY
+
+
+Release notes for Version 1.15 (Feb 2008)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- New command: PIPE
+- New commands: GET_SCREENSIZE, GET_GEOMETRY
+- Implemented BMP file format (for PUT)
+- produced a framebuffer-graphics version of X11-basic
+
+
+Release notes for Version 1.16 (Feb 2010)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- Bugfix in SORT (Feb 2010)
+- new function word$() June 2010
+- Improved DATA/RESTORE handling Dez 2010
+- Improved xbbc/bytecode/xbvm
+- Fixed memory leak accuring in varptr()
+- added xbbc and xbvm to windows distribution
+- started xb2c project
+- new psydocompiler for MS-WINDOWS, can produce standalone .exe files 
+- Bug fixed: LINEINPUT and LINEINPUT$() now can read arbitrary long lines
+- fixed bug with PBOX: now 2nd coordinate is inside the filled area.
+- new commands WATCH/(UNWATCH)/FILEEVENT$
+- fixed bug with bitmaps (PUT)
+- added support for bitmaps with transparency/alpha channel
+- fixed bug in DEFFILL
+- fixed bug in objc_draw()
+
+Release notes for Version 1.17 (May 2011)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- Adapted windows version to use the SDL library (2011-04)
+- added PLAYSOUND command (works only in SDL and WINDOWS version) 2011-05
+- modifyed syntax of SOUND command 2011-05
+- added ALSA sound support for SOUND command. 2011-05
+- made syntax a bit more tolerant against extra blanks
+- bugfix with BOX (confusion with curses library, segfault)
+- worked on the xb2c compiler/translator 2011-08
+
+Release notes for Version 1.18 (Sept 2011)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- Reworked variable management
+- Reworked xb2c compiler, produced code is now much(!) faster.
+- interpreter is now 8% faster
+- virtual machine is 20 times faster than interpreter
+- compiled code is 30 times faster than interpreter
+- improved detection of const expressions.
+- improved detection of fieldindex too large (less segfaults now)
+- fixed a memory leak
+- updated the documentation
+- changed DIM behavior: DIM a(10) means elements a(0) to a(9) are there.
+- fixed some bugs. 
+- New command: CURVE
+- Implemented DEFFN
+- Optimized Compiler: simple math functions and Square
+
+Release notes for Version 1.19 (Mai 2012)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- Android version
+- virtual machine now included in library
+- new GPS and SENSOR commands (for Android version)
+- new SPEAK kommand (for Android version)
+- improved framebuffer graphics routines
+- new command: PLAYSOUNDFILE (for Android version)
+- new command: GET_LOCATION
+- BUGFIX: SOUND, WAVE, AND(), OR(), XOR(), NOT()
+- BUGFIX: FOR with integer variable
+- BUGFIX: SELECT CASE ENDSELECT
+- NEW: "!" is now allowed at the beginning of a line
+- BUGFIX: SELECT/CONTINUE
+- some minor changes for 64bit version
+
+Release notes for Version 1.20 (Dez 2012-Mar 2013)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- New command: SHELL (also for Android)
+- bugfix: strcpy().
+- Improved: Editor execution in Android version
+- Fixed bug with desktop shortcuts under Android
+- Bugfix in virtual machine (AND)
+- included va_copy patch for 64 bit version by Matthias Vogl
+- fixed bugs in compiler (ARRAY constants)
+- fixed bugs in VARPTR() and ARRPTR()
+- fixed bug in local variable handling
+- fixed memory leak LOCAL/RETURN
+- fixed bug/crash with MERGE
+- new function: call android intents with EXEC
+- fixed bug/crash in LIST command 
+- fixed bug in SWAP command
+- fixed bug/crash in CALL command 
+- new commands: MKDIR, RMDIR, KILL, HIDEM, SHOWM
+- new functions: LEFTOF$(), RIGHTOF$(), ENCLOSE$(), DECLOSE$(), TALLY()
+- new functions: COLOR_RGB(), BYTE(), CARD(), WORD(), SWAP(), CINT(), VARIAT()
+- new commands: RENAME, CHMOD, TOUCH
+
+
+Release notes for Version 1.21 (Apr 2013-Nov 2013)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- fixed bug in GET_SCREENSIZE (Windows version)
+- new: support for Android x86 platform
+- new: (legal) FFT algorithm now included (by Paul N. Swarztrauber, public domain)
+- new: using LAPACK for INV() and SOLVE() (linux only)
+- removed support for numerical recipes routines
+- new: FIT_POLY
+- fixed bugs in SPUT, LOCATE, PRINT USING
+- new function USING$()
+- fixed memory leak with STRING variable assignment
+- fixed bug in INPUT (Android version only, locate)
+- fixed bug in RUN (close files)
+- fixed bug in bytecode compiler (STEP -#)
+- improved speed of string parser
+- fixed small problem with LOAD (last line without EOL)
+- fixed typos in the manual and offline help
+- fixed screen rotation bug (Android)
+- fixed bug in PUT scale (Android)
+- fixed bugs in GET and PUT (Windows version)
+- fixed bug in SPLIT
+- fixed bug in GPS functions (Android)
+- new function EVENT?()
+- improved LINEINPUT
+- fixed bug in Array const
+- fixed bug in compiler (array operations)
+- fixed bug in ELLIPSE, PELLIPE, RBOX and PRBOX (Android Version)
+
+Release notes for Version 1.22 (Dec 2013-June 2014)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- improved crash reports (Android)
+- Bugfix ARRAY (create, init)
+- new: ABSOLUTE command
+- new: VAR statement allows parameters "by reference"
+- added UTF-8 (unicode) support for LTEXT
+- added UTF-8 (unicode) support for console/terminal (Android)
+- added unicode bitmap font for greek/kyrillic for console/terminal (Android)
+- MENUDEF now compiles without error
+- AFTER/EVERY works in bytecode now
+- new functions: FSFIRST$(), FSNEXT$()
+- new example program: stepdir.bas
+- fixed bug in MOUSEK, MOUSE (Windows version)
+- small bugfixes in CASE,PAUSE,INSTR(), SORT, USING$(), PRINT USING
+- fixed bug in VAL?(), DET(), and GPRINT
+- fixed bug in ON ERROR, ON BREAK and ON MENU
+- fixed bug in String compare
+- fixed bug in HEX constants "0x" (Android)
+- new string function RADIX$()
+- fixed bug in framebuffer version (linux) 
+- fixed bugs in parser
+- new statement: ENDPROCEDURE (optional)
+- improved speed of bytecode
+- bugfix in compiler, improved error messages
+- fixed bug in DIM, VAL?(), PLIST
+
+Release notes for Version 1.23 (July 2014 -- August 2015)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- New data type: complex numbers a#
+- New data type: arbitrary precision integers a& (experimental)
+- LAPACK functions (e.g. SOLVE(), INVERT() etc.) now work in Android version
+- New functions LCM() and GCD()
+- fixed bugs in compiler (PRINT)
+- fixed bug in MID$()
+- compiled an ATARI ST (MINT) version of X11-Basic
+- Fixed bug in LOAD / Screen rotation
+- Again modified MID$
+- Crashfix: clear_variable
+- Fixed unavail basedir in Android
+- fixed bug in EVAL, HELP, RND(), SGET, GET, PLIST, RSRC_LOAD, OBJC_DRAW()
+- increased speed of assignment in interpreter
+- workaround for TTS crash (Android)
+- new functions UBOUND() and DIR$()
+- further crashfixes (bytecode)
+- fixed bugs in WINDOWS version (RSRC_LOAD)
+- improved GPRINT COLOR(), ALERT
+- fixed bugs in bytecode compiler MIN(), MAX() and PRINT
+- fixed bugs in BIN$(), OCT$(), HEX$(), RADIX$()
+- new functions ROR() and ROL()
+- improved EVENT and EVENT?() (Windows)
+- SGET/GET/SAVEWINDOW/SAVESCREEN now produce BMP data also in UNIX/LINUX
+- new functions PNGENCODE$() and PNGDECODE$()
+- fixed bug in FREEFILE()
+- fixed memory leak in virtual machine (less crashes now!)
+- fixed bug in SIZEW (linux) introduced in V.1.23
+- made tolerant for CRLF (DOS mode) .bas files
+- added View Docu function in context menu (WINDOWS)
+- added source box to PUT
+- fixed SPEAK (Android)
+- fixed crash (Android) on load while program is still running
+
+Release notes for Version 1.24 (Sept 2015 -- Aug 2016)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- added source box to PUT
+- fixed SPEAK (Android)
+- fixed crash (Android) on load while program is still running
+- Improved USB-Support (linux+WINDOWS)
+- New Setup for WINDOWS version (by InnoSetup)
+- Added spanish voice in SPEAK (Android)
+- new feature: screen focus for Android
+- fixed INKEY$ and INP(-2) (Windows)
+- fixed PUT_BITMAP (Android + Windows)
+- fixed bug in PUT (Android)
+- added sqlite3 binary to Android Version (make sqldemo.bas work again)
+- added gfalist binary to Android Version (see gfalist.bas)
+- fixed subarry assignment
+- improved DUMP, added DUMP c$,#n, also PLIST #n
+- fixed Crash (SIGABRT) in Android version.
+- fixed Crashhandler (Android)
+- fixed bug in RADIX() and fixed bug in arbint/arbfloat evaluation
+- fixed bug in FILL and ELLIPSE/PELLIPSE (for big screens)
+- fixed power operator in compiler for integer operands
+- little bugfix in compiler (PRINT #)
+- improved FILESELECT
+- little fixes in GLOB()
+- improved the MAC-OSX version of X11-Basic
+- improved 64bit version of X11-Basic
+- fixed bug in CLEARW
+- fixed missing pixel in BOX/HLINE (framebuffer versions)
+- fixed bug in HELP
+
+Release notes for Version 1.25 (Sept 2016 -- June 2018)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- HASH()/SHA1 and MD5 now work also without libgcrypt
+- new Commands: HIDEK, SHOWK (Android)
+- fixed bug in MERGE and FILESELECT
+- new function VRFY()
+- added raw keyboard support for framebuffer version (e.g. Raspberry pi + sense hat)
+- fixed bug in EXIT (bytecode)
+- added bluetooth support (linux)
+- improved USB functions (linux)
+- make use of fftw library when available
+- improved memory handling in 64bit versions
+- new parameter list types for CALL
+- new functions CALLD() and CALL$()
+- fixed Bug in XLOAD and TOUCH (Android)
+- created a german version of the user manual (asciidoc,html)
+- fixed bug with PBOX (Android)
+- fixed bug with UNIXDATE$() and UNIXTIME$() on 64 bit
+
+Release notes for Version 1.26 (June 2018 -- June 2019)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- New functions/commands GPIO (Raspberry)
+- fixed bug in virtual-machine/compiler (RasPi, signed char)
+- new shortcut compiler start ybasic
+- fbxbasic included 
+- added broadcast permission for UDP sockets
+- new syntax highlighting file for nano/pico
+- new commandline function --quitonend
+- bugfix in FOR (compiler) and better error handling
+
+Release notes for Version 1.27 (June 2019 -- Mar 2021)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- removed VERSION and VERSION_DATE from library
+- new function REGEXP() and MATCH()
+- little fix for HELP, REM and DATA
+- New feature: ANS variable (store result of simple calculation)
+- New function VARLEN() 
+- New function CRC16() 
+- New mqtt commands BROKER, SUBSCRIBE, PUBLISH
+
+Release notes for Version 1.28 (Mar 2021 -- June 2022)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- New TrueType Font support (SETFONT,TEXT,DEFTEXT)
+- minor bugfixes
+
+--------------------------------------------------------------------------------

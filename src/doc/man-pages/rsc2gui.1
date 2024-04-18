@@ -1,0 +1,99 @@
+.TH RSC2GUI 1 19-Sep-2003 "Version 1.09" X11-Basic"
+.SH NAME
+rsc2gui \- ATARI-ST/TOS Resources to X11-Basic GUI converter
+.SH SYNOPSIS
+.B rsc2gui
+.RI "[ " option " ] " 
+[\fB\-o\fR \fIoutfile\fR]
+.IR <filename>
+
+.SH DESCRIPTION
+
+X11-Basic is a dialect of the BASIC programming language with graphics.
+
+X11-Basic uses a graphical user interface (GUI) which is very similar to the
+ATARI-ST TOS/GEM implementation. The *.gui file format, which is basically an
+ASCII representation of the ATARI-ST recource files (*.rsc), can be converted to
+X11-Basic code, which then can handle message boxes and forms. (see 
+.I gui2bas(1)\fR.
+
+.B rsc2gui
+can be used to convert ATARI ST recource files to *.gui files.
+
+
+.SH Filenames
+
+.B rsc2gui 
+processes input files with extention 
+.I .rsc\fR. 
+The default output filename is 
+.I b.gui\fR.
+
+.SH OPTIONS
+.TP
+.BR \-o " " \fIfile\fR
+Place output in file 
+.I file
+\&. This applies regardless to whatever
+sort of output rsc2gui is producing.
+.Sp
+If you do not specify `\|\c
+.B \-o\c
+\&\|', the default is to use
+`\|\c
+.B b.gui\c
+\&\|'
+.TP
+.BR \-\-version
+shows version, program and other information and exits
+.TP
+.BR \-h ", " \-\-help
+print a short help.
+.PP
+For detailed help and description of the implemented basic commands take a 
+look at the README file. 
+
+
+.SH EXAMPLES
+.nf
+rsc2gui 1st_word.rsc
+ produces an output file b.gui
+
+rsc2gui 1st_word.rsc -o newname.gui
+ produces an output file newname.gui
+.fi
+
+
+.SH VERSION
+Page was created for V.1.09
+
+.SH BUG REPORTS  
+
+If you find a bug in the TOS-rsc to X11-Basic GUI converter, you should report
+it. But first, you should make sure that it really is a bug, and that it appears
+in the latest version of the X11-Basic package that you have.
+
+Once you have determined that a bug actually exists, mail a bug report to
+kollo@users.sourceforge.net. If you have a fix, you are welcome to mail that as
+well! Suggestions may be mailed to the X11-Basic bug tracking system.
+
+Comments and bug reports concerning this manual page should be directed to
+kollo@users.sourceforge.net.
+
+.SH AUTHOR
+Markus Hoffmann <kollo@users.sourceforge.net>
+
+.SH COPYRIGHT
+Copyright (C) 1997-2003 Markus Hoffmann <kollo@users.sourceforge.net>
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+.SH SEE ALSO
+xbasic(1)

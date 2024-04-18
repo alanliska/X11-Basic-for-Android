@@ -1,0 +1,24 @@
+COLOR COLOR_RGB(0,0,0)
+PBOX 0,0,640,400
+DEFTEXT 1
+COLOR COLOR_RGB(1,1/6,1/6)
+DEFTEXT ,0.08*0.9,0.16*0.9,0
+'DEFLINE ,2,2,2
+FOR x=0 TO 15
+  FOR y=0 TO 15
+    LTEXT 8*y,16*x,CHR$(y+16*x)
+    SETFONT "BIG"
+    TEXT 160+8*y,16*x+16,CHR$(y+16*x)
+    SETFONT "MEDIUM"
+    TEXT 300+8*y,16*x+16,CHR$(y+16*x)
+    SETFONT "SMALL"
+    TEXT 440+8*y,16*x+16,CHR$(y+16*x)
+    SHOWPAGE
+  NEXT y
+NEXT x
+
+LTEXT 0,350,"Umlaute: ÄÜÖ äüö ß °C €"
+
+PAUSE 5
+ALERT 0,"Fertig !",1," OK ",dummy
+QUIT

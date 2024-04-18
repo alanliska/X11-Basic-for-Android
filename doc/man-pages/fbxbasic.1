@@ -1,0 +1,169 @@
+.TH FBXBASIC 1 04-Jan-2022 "Version 1.28" "X11-Basic"
+.SH NAME
+fbxbasic \- The BASIC language interpreter and shell, framebuffer version
+.SH SYNOPSIS
+.B fbxbasic
+[\fB\-\-framebuffer\fR \fI<device>\fR]
+[\fB\-\-eval\fR \fIexpression\fR]
+[\fB\-e\fR \fIcommand\fR]
+[\fB\-l\fR]
+[\fI<filename>\fR]
+
+.SH DESCRIPTION
+
+X11-Basic is a dialect of the BASIC programming language with graphics
+capability.
+
+.B fbxbasic 
+is the framebuffer version of the X11-Basic interpreter. 
+It excecutes BASIC programs, which 
+usually have the extension 
+.I .bas
+or 
+.I .xbas\fR.
+.PP
+The base functionallity is exactly the same as the (normal, X11/X.org version) of
+X11-Basic. Please also read the man page of \fIxbasic(1)\fR.
+.PP
+.B fbxbasic
+is independent of the X.org installation and can run without, though
+supporting all graphics commands of the language. 
+.PP
+To show graphics on the screen, 
+.B fbxbasic
+trys to open a framebuffer device, 
+supported by the operating system. By default 
+.I /dev/fb0
+is opened, but you can also specify a specific device with the 
+.B \-\-framebuffer 
+option (see below).
+.PP 
+Mouse and keyboard input is also supported by corresponding raw devices which
+can be specified via the commanline options 
+.B \-\-mouse 
+and
+.B \-\-keyboard \fR.
+
+.SH OPTIONS
+.TP
+.BR \ \fI<file>\fR
+load and run BASIC program \fIfile\fR.
+.TP
+.BR \-l " " \fIfile\fR
+only load script, do not execute.
+.TP
+.BR \-\-eval " " \fIexpression\fR
+evaluate expression.
+.TP
+.BR \-e " " \fIcommand\fR
+execute command.
+.TP
+.BR \-\-framebuffer " "  \fI<device>\fR
+specify framebuffer device to be used for graphics.
+.TP
+.BR \-\-mouse " " \fI<device>\fR
+specify mouse input device to be used.
+.TP
+.BR \-\-keyboard " " \fI<device>\fR
+specify keyboard input device to be used.
+.TP
+.BR \-\-version
+shows version, program and other information and exits.
+.TP
+.BR \-h ", " \-\-help
+print a short help.
+.TP
+.BR \-\-help " " \fItopic\fR
+print help on topic.
+.TP
+.BR \-\-daemon
+daemon mode
+.TP
+.BR \-\-quitonend
+changes the behaviour of the interpreter such that it quits after the program 
+has finished. 
+The direct mode / interactive mode will not be entered.
+.PP
+For detailed help and description of the implemented basic commands take a look
+at the README file which comes with the X11-Basic package. There is also a full
+users manual available as *.pdf file on the homepage.
+
+.SH INTERACTIVE USE
+If no options are given on the command line, 
+.B fbxbasic
+will run interactivly.
+
+A prompt will be displayed and any command can be typed in. It will be excecuted
+immediately after pressing return or enter. The input is buffered and can be
+edited using the up and down arrows on the keyboard.
+
+.B To quit the program
+simply enter 
+.IR quit
+or press 
+.IR CTRL-C.
+
+.SH EXAMPLES
+.nf
+fbxbasic testme.bas
+fbxbasic testme.b
+fbxbasic --framebuffer /dev/fb0 -e 'alert 1,"Hello world !",1," OK ",b'
+.fi
+
+.SH The X11-Basic Language
+
+For a complete language reference of X11-Basic please refer to the manual.
+You should be able to find one at
+.I http://x11-basic.sourceforge.net/x11basic.html
+
+
+You can find additional sample programs in 
+.I /usr/share/doc/packages/X11Basic/examples.
+
+
+.SH The X11-Basic Language
+
+For a complete language reference of X11-Basic please refer to the manual.
+You should be able to find one at
+.I http://x11-basic.sourceforge.net/x11basic.html
+
+
+.SH VERSION
+This page was created for V.1.27
+
+.SH BUG REPORTS
+
+If you find a bug in the X11-Basic interpreter, you should report it. But first,
+you should make sure that it really is a bug, and that it appears in the latest
+version of the X11-Basic package that you have.
+
+Once you have determined that a bug actually exists, mail a bug report to
+kollo@users.sourceforge.net. If you have a fix, you are welcome to mail that as
+well! Suggestions may be mailed to the X11-Basic mailing list on 
+www.sourceforge.net/projects/x11-basic or posted to the bug tracking system.
+
+Comments and bug reports concerning this manual page should be directed to
+kollo@users.sourceforge.net.
+
+.SH AUTHOR
+Markus Hoffmann <kollo@users.sourceforge.net>
+.SH COPYRIGHT
+Copyright (C) 1997-2022 Markus Hoffmann <kollo@users.sourceforge.net>
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, 
+but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+.SH SEE ALSO
+
+http://x11-basic.sourceforge.net/
+
+/usr/share/doc/x11basic/
+
+xbasic(1), ybasic(1), xbc(1), xbbc(1), bas211basic(1)

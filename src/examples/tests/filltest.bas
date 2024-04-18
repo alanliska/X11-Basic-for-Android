@@ -1,0 +1,32 @@
+' Test the FILL command (flood fill algorithm) Markus Hoffmann 2005
+COLOR get_color(65535,65535,0)
+PBOX 0,0,640,400
+ALERT 1,"ready ?",1,"OK",b
+COLOR get_color(65535,65535,0)
+PBOX 0,0,640,400
+COLOR get_color(65535,65535,65535)
+LINE 10,10,600,300
+COLOR get_color(0,0,0)
+LINE 600,10,10,300
+CIRCLE 400,400,50
+CIRCLE 300,400,50
+CIRCLE 300,300,50
+CIRCLE 100,100,50
+CIRCLE 180,100,50
+CIRCLE 250,100,50
+CIRCLE 250,140,50
+TEXT 280,200,"This is a flood-fill test"
+VSYNC
+COLOR get_color(0,0,65535)
+FILL 200,200
+ALERT 1,"fertig",1,"OK",b
+COLOR get_color(0,65535,0)
+FILL 200,200
+ALERT 1,"fertig",1,"OK",b
+COLOR get_color(0,0,0)
+FILL 200,200
+ALERT 1,"fertig",1,"OK",b
+COLOR get_color(65535,0,0)
+FILL 200,200
+ALERT 1,"fertig",1,"OK",b
+QUIT

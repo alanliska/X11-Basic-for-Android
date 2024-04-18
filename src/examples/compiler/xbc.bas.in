@@ -1,0 +1,304 @@
+' Compiler for X11-Basic (console-Version)
+' can generate native code as well as bytecode or psydo compiled code
+' which can be linked statically or dynamically with the
+' X11-Basic library.
+' (c) Markus Hoffmann Dec. 2002 (last modification: 10.12.2012)
+' 10.2004: can now produce object files without main()
+' 10.2005: can now Produce MS WINDOWS .exe files
+' 04.2007: now can produce .b bytecode files
+' 04.2011: now can produce real compiled files
+' 10.2012: now accepts also .xbas as source code extension
+' 01.2013: adapted to new **program structure
+' 03.2013: added new compile flags -L and --pseudo
+' 03.2014: corrected bug with -s (strip)   MH
+' 01.2016: added prefix macro to library path  MH
+' 10.2016: added more declarations to suppress warnings  MH
+
+'* This file is part of X11BASIC, the basic interpreter for Unix/X
+'* ======================================================================
+'* X11BASIC is free software and comes with NO WARRANTY - read the file
+'* COPYING for details
+'*
+
+i=1
+compileonly=FALSE
+precomponly=FALSE
+lflag=FALSE
+win32=FALSE
+bytecode=FALSE
+virtualm=FALSE
+dostrip=FALSE
+docomments=FALSE
+librarypath$="@prefix@/lib"
+CLR inputfile$,dyn,collect$
+outputfilename$="b.out"
+WHILE LEN(PARAM$(i))
+  IF LEFT$(PARAM$(i))="-"
+    IF param$(i)="--help" OR PARAM$(i)="-h"
+      @intro
+      @using
+    ELSE IF PARAM$(i)="--version"
+      @intro
+      QUIT
+    ELSE IF PARAM$(i)="--dynamic"
+      dyn=TRUE
+    ELSE IF PARAM$(i)="--pseudo"
+      virtualm=false
+      bytecode=false
+    ELSE IF PARAM$(i)="-win32"
+      win32=TRUE
+      IF outputfilename$="b.out"
+        outputfilename$="b.exe"
+      ENDIF
+    ELSE IF PARAM$(i)="--win32"
+      win32=TRUE
+      IF outputfilename$="b.out"
+        outputfilename$="b.exe"
+      ENDIF
+    ELSE IF PARAM$(i)="--bytecode"
+      bytecode=true
+    ELSE IF PARAM$(i)="-bytecode"
+      bytecode=true
+    ELSE IF PARAM$(i)="--virtualm"
+      virtualm=true
+    ELSE IF PARAM$(i)="-virtualm"
+      virtualm=true
+    ELSE IF PARAM$(i)="-b"
+      precomponly=TRUE
+      compileonly=TRUE
+    ELSE IF PARAM$(i)="-c"
+      compileonly=TRUE
+    ELSE IF PARAM$(i)="-C"
+      docomments=TRUE
+    ELSE IF PARAM$(i)="-l"
+      lflag=TRUE
+    ELSE IF PARAM$(i)="-s"
+      dostrip=TRUE
+    ELSE IF PARAM$(i)="-L"
+      INC i
+      IF LEN(PARAM$(i))
+        librarypath$=PARAM$(i)
+      ENDIF
+    ELSE IF PARAM$(i)="-o"
+      INC i
+      IF LEN(PARAM$(i))
+        outputfilename$=PARAM$(i)
+      ENDIF
+    ELSE
+      collect$=collect$+PARAM$(i)+" "
+    ENDIF
+  ELSE
+    inputfile$=PARAM$(i)
+    IF NOT EXIST(inputfile$)
+      PRINT "xbc: "+inputfile$+": file or path not found"
+      CLR inputfile$
+    ENDIF
+  ENDIF
+  INC i
+WEND
+IF LEN(inputfile$)
+  rumpf$=inputfile$
+  WHILE len(rumpf$)
+    SPLIT rumpf$,"/",1,a$,rumpf$
+  WEND
+  f$=a$
+  rumpf$=a$
+  SPLIT a$,".",1,rumpf$,typ$
+  IF typ$="o"
+    @link
+  ELSE if typ$="b"
+    @compilevm
+    IF not compileonly
+      @link
+    ENDIF
+  ELSE IF typ$="bas" OR typ$="xbas"
+    IF virtualm OR bytecode
+      @dobytecode
+    ENDIF
+    IF virtualm
+      @compilevm
+    ELSE
+      @compile
+    ENDIF
+    IF NOT compileonly
+      @link
+    ENDIF
+  ELSE
+    PRINT f$+": file not recognized: File format not recognized"
+  ENDIF
+ELSE
+  PRINT "xbc: No input files"
+ENDIF
+QUIT
+PROCEDURE intro
+  PRINT "X11-Basic Compiler V.@version@ (c) Markus Hoffmann 2002-2016"
+  VERSION
+RETURN
+PROCEDURE using
+  PRINT "Usage: xbc [options] file..."
+  PRINT "Options:"
+  PRINT "  -h, --help               Display this information"
+  PRINT "  --dynamic                link with shared library libx11basic.so"
+  PRINT "  --static                 link with static library (default)"
+  PRINT "  -b                       only precompile"
+  PRINT "  -c                       precompile and compile, but do not link"
+  PRINT "  -l                       produce linkable object file (no executable)"
+  PRINT "  -L <path>                use path as library path (default: /usr/lib)"
+  PRINT "  -C                       keep comments"
+  PRINT "  --bytecode               produce a bytecode file"
+  PRINT "  -bytecode                produce a bytecode file"
+  PRINT "  --virtualm               use virtual machine framework instead of psydo-interpreter"
+  PRINT "  -virtualm                use virtual machine framework instead of psydo-interpreter"
+  PRINT "  --pseudo                 pseudo-compile"
+  PRINT "  -shared                  produce shared object file"
+  PRINT "  --win32                  produce Windows .exe file"
+  PRINT "  -win32                   produce Windows .exe file"
+  PRINT "  -o <file>                Place the output into <file>"
+RETURN
+PROCEDURE dobytecode
+  LOCAL extra$
+  CLR extra$
+  IF docomments
+    extra$=extra$+"-c "
+  ENDIF
+  IF dostrip AND NOT virtualm
+    extra$=extra$+"-s "
+  ENDIF
+  SYSTEM "xbbc "+extra$+" -o "+rumpf$+".b"+" "+inputfile$
+RETURN
+PROCEDURE compilevm
+  IF lflag
+    SYSTEM "xb2c -l -o "+rumpf$+".c"+" "+rumpf$+".b"
+  ELSE
+    SYSTEM "xb2c -o "+rumpf$+".c"+" "+rumpf$+".b"
+  ENDIF
+  IF NOT precomponly
+    IF win32
+      SYSTEM "i686-pc-mingw32-gcc @copt@ -c "+rumpf$+".c"
+    ELSE
+      IF lflag
+        SYSTEM "@CC@ @copt@ -DNOMAIN -c "+rumpf$+".c"
+      ELSE
+        SYSTEM "@CC@ @copt@ -c "+rumpf$+".c"
+      ENDIF
+    ENDIF
+    KILL rumpf$+".c"
+    KILL rumpf$+".b"
+  ENDIF
+RETURN
+
+PROCEDURE compile
+  LOCAL linecount
+  linecount=0
+  OPEN "O",#2,rumpf$+".c"
+  PRINT #2,"/* PSEUDO-Code.c ("+f$+")"
+  PRINT #2,"   X11-BAsic-Pseudo-Compiler Version @version@"
+  PRINT #2,"   (c) Markus Hoffmann"
+  PRINT #2,"*/"
+  PRINT #2,"#include <stdio.h>"
+  PRINT #2,"#include <stdlib.h>"
+  PRINT #2,"#include <string.h>"
+  PRINT #2,"extern int param_anzahl;"
+  PRINT #2,"extern char **param_argumente;"
+  IF lflag
+    PRINT #2,"void programmlauf();"
+    PRINT #2,"void do_run();"
+    PRINT #2,"extern char **program;"
+    PRINT #2,"extern int prglen;"
+    PRINT #2,"char *routine_"+rumpf$+"[]={"
+  ELSE
+    PRINT #2,"void reset_input_mode(),x11basicStartup(),programmlauf();"
+    PRINT #2,"void do_run();"
+    PRINT #2,"int init_program(int);"
+    PRINT #2,"void set_input_mode(int,int);"
+    PRINT #2,"const char version[]="+ENCLOSE$("@version@")+";"
+    PRINT #2,"const char vdate[]="+ENCLOSE$(date$+" "+time$+" xxxx @version@")+";"
+    PRINT #2,"int verbose=0;"
+    PRINT #2,"int programbufferlen=0;"
+    PRINT #2,"char ifilename[]="+ENCLOSE$(f$)+";"
+    PRINT #2,"char *programbuffer=NULL;"
+    PRINT #2,"char **program=(char *[]) {"
+  ENDIF
+  OPEN "I",#1,inputfile$
+  WHILE NOT EOF(#1)
+    LINEINPUT #1,t$
+    t$=XTRIM$(t$)
+    IF LEN(t$)
+      IF LEFT$(t$)<>"'"
+        SPLIT t$," !",1,t$,b$
+        IF LEFT$(t$,6)="PRINT "
+          t$="? "+RIGHT$(t$,LEN(t$)-6)
+        ELSE IF LEFT$(t$,6)="GOSUB "
+          t$="@"+RIGHT$(t$,LEN(t$)-6)
+        ELSE IF LEFT$(t$,5)="VOID "
+          t$="~"+RIGHT$(t$,LEN(t$)-5)
+        ENDIF
+        t$=REPLACE$(t$,CHR$(34),"##AN"+"F##")
+        t$=REPLACE$(t$,"\","##BACKS"+"LASH##")
+        t$=REPLACE$(t$,"##A"+"NF##","\042")
+        t$=REPLACE$(t$,"##BACK"+"SLASH##","\\")
+        PRINT #2,ENCLOSE$(t$)+","
+        INC linecount
+      ENDIF
+    ENDIF
+  WEND
+  CLOSE #1
+  PRINT #2,"};"
+  IF lflag
+    PRINT #2,"int routinelen_"+rumpf$+"=sizeof(routine_"+rumpf$+")/sizeof(char *);"
+    PRINT #2,"typedef struct {int len; char *pointer;} STRING;"
+    PRINT #2,"extern union {double f; STRING str;} returnvalue;"
+    PRINT #2,"double enter_"+rumpf$+"(char *n){"
+    PRINT #2,"int oldprglen; char **oldprogram;"
+    PRINT #2,"oldprglen=prglen; oldprogram=program;"
+    PRINT #2,"program=routine_"+rumpf$+";"
+    PRINT #2,"prglen=routinelen_"+rumpf$+";"
+    PRINT #2,"init_program(prglen);c_run("");c_gosub(n);programmlauf();"
+    PRINT #2,"program=oldprogram;prglen=oldprglen;"
+    PRINT #2,"return(returnvalue.f);}"
+  ELSE
+    ' PRINT #2,"int prglen=sizeof(program)/sizeof(char *);"
+    PRINT #2,"int prglen="+STR$(linecount)+";"
+    IF win32
+      PRINT #2,"#include <windows.h>"
+      PRINT #2,"HINSTANCE hInstance;"
+    ENDIF
+    PRINT #2,"int main(int anzahl, char *argumente[]) {"
+    IF win32
+      PRINT #2,"hInstance=GetModuleHandle(NULL);"
+    ENDIF
+    PRINT #2,"x11basicStartup(); set_input_mode(1,0);"
+    PRINT #2,"atexit(reset_input_mode);"
+    PRINT #2,"param_anzahl=anzahl;"
+    PRINT #2,"param_argumente=argumente;"
+    PRINT #2,"init_program(prglen); do_run(); programmlauf();}"
+  ENDIF
+  CLOSE #2
+  IF NOT precomponly
+    IF win32
+      SYSTEM "i686-pc-mingw32-gcc @copt@ -c "+rumpf$+".c"
+    ELSE
+      SYSTEM "@CC@ @copt@ -c "+rumpf$+".c"
+    ENDIF
+    KILL rumpf$+".c"
+  ENDIF
+RETURN
+
+PROCEDURE link
+  IF dyn
+    IF win32
+      SYSTEM "i686-pc-mingw32-gcc @regs@ -o "+outputfilename$+" "+rumpf$+".o -L"+librarypath$+"/ -lx11basic -lm -lgdi32 -lkernel32 -luser32 -lole32 -luuid -lwsock32"
+    ELSE
+      SYSTEM "@CC@ @regs@ -o "+outputfilename$+" "+rumpf$+".o @xlibs@ -L"+librarypath$+"/ -lx11basic  @libs@"
+    ENDIF
+  ELSE
+    IF win32
+      SYSTEM "i686-pc-mingw32-gcc @regs@ -o "+outputfilename$+" "+rumpf$+".o "+librarypath$+"/x11basic.lib -lm  -lgdi32 -lkernel32 -luser32 -lole32 -luuid -lwsock32 "
+    ELSE
+      SYSTEM "@CC@ @regs@ -o "+outputfilename$+" "+rumpf$+".o "+librarypath$+"/x11basic.a @xlibs@ @libs@"
+    ENDIF
+  ENDIF
+  IF dostrip
+    SYSTEM "strip "+outputfilename$
+  ENDIF
+RETURN

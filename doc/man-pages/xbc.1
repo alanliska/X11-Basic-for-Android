@@ -1,0 +1,230 @@
+.TH XBC 1 04-Jan-2022 "Version 1.28" "X11-Basic"
+.SH NAME
+xbc \- X11-Basic compiler manager
+.SH SYNOPSIS
+.B xbc
+[\fB\-b\fR]
+[\fB\-c\fR]
+[\fB\-l\fR]
+.RI "[ " option " ] " 
+.IR <filename>
+
+.SH DESCRIPTION
+
+X11-Basic is a dialect of the BASIC programming language with graphics.
+
+.B xbc
+can be used to make stand-alone-binaries out of *.bas script files.
+.PP
+For a desciption of the X11-Basic language and usage of the interpreter see
+.I xbasic(1)\fI.
+
+.SH Filenames
+
+.B xbc 
+process input files through one or more of three stages: 
+preprocessing, compilation, translation and linking. 
+Source filename suffixes identify the source language.
+
+Suffixes of source file names indicate the kind of
+processing to be done:
+.nf
+.ta \w'\fB.cxx\fP 'u
+\&\fB.bas\fP	Basic source; preprocess, compile, link
+\&\fB.b\fP	bytecode file; translate to C, then compile to native code
+\&\fB.o\fP	Object file; link
+.fi
+
+Linking is always the last stage unless you use one of the
+.BR \-c 
+, 
+.BR \-b 
+or
+.BR \-l 
+options to avoid it (or unless compilation errors stop the whole
+process).
+.SH OPTIONS
+.TP
+.B \-b
+Precompile the source files, but do not compile nor link it. The compiler
+output is a *.c file corresponding to the source file. These *.c files can
+be compiled with e.g. the GNU project C Compiler.
+
+By default, xbc makes the *.c file name for a source file by replacing
+the suffix `\|\c
+.B .bas\c
+ with
+.B .o\c
+\&\|'. Use
+.B \-o\c
+\& to select another name.
+.TP
+.B \-c
+Precompile and compile the source files, but do not link. The compiler
+output is an object file corresponding to each source file.
+
+By default, xbc makes the object file name for a source file by replacing
+the suffix `\|\c
+.B .bas\c
+ with `\|\c
+.B .o\c
+\&\|'. Use
+.B \-o\c
+\& to select another name.
+.TP
+.B \-l
+Precompile and compile the source files, but do not link. The compiler output is
+an object file corresponding to each source file. The source files are compiled
+in a way that they can (and will have to) be linked to other object files. With
+these object files it is possible to create a library from your basic routines,
+which can be executed from another program.
+
+By default, xbc makes the object file name for a source file by replacing
+the suffix `\|\c
+.B .bas\c
+ with `\|\c
+.B .o\c
+\&\|'. Use
+.B \-o\c
+\& to select another name.
+.TP
+.BI "\-o " file
+Place output in file \c
+.I file\c
+\&. This applies regardless to whatever sort of output xbc is producing, 
+whether it be an executable file, a *.c file or an object file.
+
+Since only one output file can be specified, it does not make sense to
+use `\|\c
+.B \-o\c
+\&\|' when compiling more than one input file, unless you are
+producing an executable file as output.
+
+If you do not specify `\|\c
+.B \-o\c
+\&\|', the default is to put an executable file
+in `\|\c
+.B b.out\c
+\&\|', the object file for `\|\c
+.I source\c
+.B \&.\c
+.I suffix\c
+\&\c
+\&\|' in
+`\|\c
+.I source\c
+.B \&.o\c
+\&\|', and its *.c file in `\|\c
+.I source\c
+.B \&.c\c
+.
+.TP
+.BR \-virtualm ", " \-\-virtualm
+this option tells the compiler to compile the code to bytecode and then translate it to C 
+source and finally compile it with gcc. The code produced is really fast. On UNIX this 
+option can always be used unless some compiler trouble occur. 
+.TP
+.BR \-\-static
+this is the default. The X11-Basic library will be linked to the excecutable.
+.TP
+.BR \-\-dynamic
+The excecutable will be linked dynamically against the X11-Basic library.
+.TP
+.BR \-shared
+This option is passed to the linker and tells it, that it should produce a shared
+object file which can then be linked with other objects to
+form an executable. Not all systems support this option. 
+Usually the extention should be 
+.B .so\c
+.
+ This option only makes sense
+if it was used together with the 
+.B -l\c
+ option.
+.TP
+.BR \-C
+do not discard comments. All comments are passed through to the
+output file.
+.TP
+.BR \-s ", " \-\-strip
+remove all symbol tables and relocation information from the
+executable.
+.TP
+.BR \-L " " \fIpath\fR
+Use 
+.I path
+\& when looking for libraries to link (default is /usr/lib). 
+.TP
+.BR \-\-version
+shows version, program and other information and exits.
+.TP
+.BR \-h ", " \-\-help
+print a short help and exit.
+.PP
+For detailed help and description of the implemented basic commands take a 
+look at the README file. 
+
+
+.SH EXAMPLES
+.nf
+xbc testme.bas
+ produces an excecutable file b.out
+xbc testme.bas -o testme --dynamic
+ produces an excecutable file testme
+xbc testme.bas -c 
+ produces testme.o
+xbc testme.bas -b
+ produces testme.c or 11.c or b.b
+xbc testme.bas -virtualm --dynamic -o b.out
+ produces b.out, which excecutes really fast!
+.fi
+
+You can find additional sample programs in 
+.I /usr/share/doc/packages/X11Basic/examples.
+
+.SH The Compiler Manager
+
+Actually xbc is a real compiler, if used with the -virtualm option. However, the
+default behaviour is such, that the source code is still interpreted on runtime.
+But the source code is linked to the X11-Basic library so there results one 
+independant executable. Another advantage is that it is quite hard to extract a
+full running *.bas file from this binary since the code is compressd in a way. 
+
+Why is this the default? Well the compiler can pseudo-compile all BASIC 
+programs, which run in the interpreter. The real compiler has some restrictions 
+on the BASIC code, because it cannot compile every constructs (e.g. jumps/GOTO
+out of a procedure).
+
+.SH VERSION
+Page was created for V.1.25
+
+.SH BUG REPORTS 
+
+If you find a bug in the X11-Basic compiler xbc, you should report it. But
+first, you should make sure that it really is a bug, and that it appears in the
+latest version of the X11-Basic package that you have.
+
+Once you have determined that a bug actually exists, mail a bug report to
+kollo@users.sourceforge.net. If you have a fix, you are welcome to mail that
+as well! Suggestions may be mailed to the bug tracking system.
+
+Comments and bug reports concerning this manual page should be directed to 
+kollo@users.sourceforge.net.
+
+.SH AUTHOR
+Markus Hoffmann <kollo@users.sourceforge.net>
+
+.SH COPYRIGHT
+Copyright (C) 1997-2022 Markus Hoffmann <kollo@users.sourceforge.net>
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+.SH SEE ALSO
+xbasic(1), gcc(1), ld(1), xbbc(1), xb2c(1), xbvm(1)

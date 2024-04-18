@@ -1,0 +1,108 @@
+.TH XBVM 1 04-Jan-2022 "Version 1.28" "X11-Basic"
+.SH NAME
+xbvm  \- X11-Basic bytecode interpreter / virtual machine 
+.SH SYNOPSIS
+.B xbvm
+[\fB\-q\fR]
+[\fB\-v\fR]
+.RI "[ " options " ] " 
+.IR <filename>
+
+.SH DESCRIPTION
+
+X11-Basic is a dialect of the BASIC programming language with graphics
+capability. 
+
+.B xbvm
+can be used to execute bytecode-binaries which have been compiled with 
+.I xbbc(1)
+before. These bytecode 
+files run about 10-20 times faster than the interpreted .bas files. 
+
+.B xbvm
+is a run-only interpreter, it has no interactive mode and no editing features.
+It is possible to pack one BASIC program together with the virtual machine to 
+form a single excecutable file. 
+
+.PP
+For a desciption of the X11-Basic language and usage of the interpreter see
+.I xbasic(1).
+
+.SH Filenames
+
+.B xbvm 
+processes one input file. The suffix of the input file is usually .b.
+
+.SH OPTIONS
+.TP
+.BR \-q
+be quiet and print less debug information. 
+.TP
+.BR \-v
+be more verbose and print debug information. 
+.TP
+.BR \-\-version
+shows version, program and other information and exits.
+.TP
+.BR \-h ", " \-\-help
+print a short help and exit.
+.PP
+For detailed help and description of the implemented basic commands take a 
+look at the README file coming with the package and the X11-Basic manual. 
+
+
+.SH EXAMPLES
+.nf
+xbvm testme.b
+xbvm -v testme.b
+.fi
+
+
+.SH The virtual machine
+The virtual machine is an interpreter for bytecode. It implements a virtual 
+stack machine on which the bytecode is excecuted. 
+The bytecode is very compact  and similar to machine code, and it
+is independant of the actual processor hardware and such very portable. With an
+additional small step it can be translated to native assembler or machine code.
+(For linux this is done by the 
+.I xb2c(1) 
+translator and 
+.I gcc()).
+
+The bytecode interpreter is highly optimized, so that the gain in excecution
+speed is immense. Especially complex formulas are speed up by a factor 20. Last
+but not least, there is no way to recreate the source code from the bytecode. 
+
+.SH VERSION
+Page was created for V.1.27
+
+.SH BUG REPORTS       
+
+If you find a bug in the X11-Basic virtual machine, you should report it. But
+first, you should make sure that it really is a bug, and that it appears in
+the latest version of the X11-Basic package that you have.
+
+Once you have determined that a bug actually exists, mail a bug report to
+kollo@users.sourceforge.net. If you have a fix, you are welcome to mail that
+as well! Suggestions may be mailed to the bug tracking system.
+
+Comments and bug reports concerning this manual page should be directed to
+kollo@users.sourceforge.net.
+
+.SH AUTHOR
+Markus Hoffmann <kollo@users.sourceforge.net>
+
+.SH COPYRIGHT
+Copyright (C) 1997-2022 Markus Hoffmann <kollo@users.sourceforge.net>
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software 
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+.SH SEE ALSO
+xbasic(1), xbbc(1), xbc(1), xb2c(1), ybasic(1)

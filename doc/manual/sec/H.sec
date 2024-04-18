@@ -1,0 +1,138 @@
+##############################################################################
+Function: HASH$()
+Syntax:   h$=HASH$(t$[,typ%])
+
+DESCRIPTION:
+
+	Executes a hash function on the data contained in t$.
+	Depending on typ% the hash function used is:
+----*
+ Typ%=1     ! MD5  (default)
+      2     ! SHA1
+      3     ! RMD160
+      5     ! MD2
+      6     ! TIGER/192
+      7     ! HAVAL, 5 pass, 160 bit. 
+      8     ! SHA256
+      9     ! SHA384
+     10     ! SHA512
+     11     ! SHA224
+    301     ! MD4
+    302     ! CRC32
+    303     ! CRC32_RFC1510 
+    304     ! CRC24_RFC2440 
+    305     ! WHIRLPOOL
+    306     ! TIGER fixed. 
+    307     ! TIGER2 variant. 
+*----	
+	If typ% is not specified, MD5 is used.
+	HASH$() returns a string which contains the hash value in binary form.
+
+COMMENT: 
+	The default HASH$(), which is MD5, and HASH typ%=2, which is SHA1, are 
+	always available. The other hash algorithms are only available if 
+	libgcrypt was compiled in.
+
+EXAMPLE: 
+       h$=HASH$("Calculate a MD5 sum from this text.",1)
+       PRINT LEN(h$)     ! Result: 16
+       PRINT "MD5=";
+       FOR i=1 TO 16
+         PRINT RIGHT$(HEX$(ASC(MID$(h$,i))),2);
+       NEXT i
+       PRINT
+       ' --> Result: 754975185BF0D1B78141D36C2E60E7D1
+SEE ALSO: CRC()
+##############################################################################
+Command: HELP
+Syntax:  HELP <string-pattern>
+
+DESCRIPTION:
+
+	Gives information on the synopsis of built-in commands and functions.
+	You can either specify a complete name of a command or a 
+	wildcard-pattern. All commands and functions matching the pattern will 
+	be listed.
+
+EXAMPLE:
+	HELP CL*
+
+	Result:
+
+	CLEAR [...]
+        CLEARW [#n]
+        CLIP i%,i%,i%,i%[,i%,i%]
+	CLOSE [...]
+        CLOSEW [#n]
+        CLR var[,...]
+	CLS
+
+##############################################################################
+Function: HEX$()
+Syntax:   h$=HEX$(d%[,n%])
+
+DESCRIPTION:
+
+	Converts an integer value d% into a string containing its hexadecimal 
+	number representation. The optional parameter n% specifies the minimal 
+	length of the output. If it is larger than needed, the string will
+	be filled with leading zeros.
+	Negative numbers are converted to unsigned int before processing. 
+	If you need a binary representations with sign, use RADIX$() instead.
+
+EXAMPLES:
+	PRINT HEX$(123)        Result:  7B
+	PRINT HEX$(17,8)       Result:  00000011
+
+SEE ALSO: STR$(), BIN$(), OCT$(), RADIX$()
+##############################################################################
+Command: HIDEK
+Syntax:  HIDEK
+
+DESCRIPTION:
+
+	Hide the virtual keyboard. (It will be invisible.)
+
+COMMENT: 
+	Works only on Android. On other platforms this command has currently 
+	no effect.
+
+SEE ALSO:  SHOWK
+##############################################################################
+Command: HIDEM
+Syntax:  HIDEM
+
+DESCRIPTION:
+
+	Hide the mouse cursor. (It will be invisible.)
+
+COMMENT: 
+	Works only on the framebuffer (Android) and on ATARI-MINT. 
+	On other platforms this command has no effect.
+
+SEE ALSO:  SHOWM, DEFMOUSE
+##############################################################################
+Command: HOME
+Syntax:  HOME
+
+DESCRIPTION:
+
+	HOME will move the text cursor home (upper left corner).
+
+SEE ALSO:  PRINT AT()
+##############################################################################
+
+Function: HYPOT()
+Syntax:  a=HYPOT(x,y)
+
+DESCRIPTION:
+
+	The HYPOT() function returns the SQRT(x*x+y*y). This is the length of 
+	the hypotenuse of a right-angle triangle with sides of length x and y, 
+	or the distance of the point (x,y) from the origin.
+	
+EXAMPLE: 
+	PRINT HYPOT(3,4)    ! Result: 5
+
+SEE ALSO: SQRT()
+#############################################################################

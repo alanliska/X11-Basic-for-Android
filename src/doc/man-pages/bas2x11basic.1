@@ -1,0 +1,111 @@
+.TH BAS2X11BASIC 1 19-Jan-2022 "Version 1.28" "X11-Basic"
+.SH NAME
+bas2x11basic \- ANSI-Basic to X11-Basic converter
+.SH SYNOPSIS
+.B bas2x11basic
+.RI "[ " option " ] "
+[\fB\-o\fR \fIoutfile\fR]
+.IR <filename>
+
+.SH DESCRIPTION
+
+X11-Basic is a dialect of the BASIC programming language with graphics.
+
+X11-Basic is a structured programming language. Structure is a form of visual
+and functional encapsulation in which multiple line sections of a program  look
+and act like single units. The beginning and end of blocks are marked by
+descriptive keyword delimiters. Lines within blocks are generally indented to
+make the block visible. Most important: X11-Basic does not use line numbers.
+
+.B bas2x11basic
+can be used to make X11-Basic template programs out of ANSI basic files. It
+helps converting old (real) Basic Programs with line numbers and multiple
+commands per line to the X11-Basic structure. Because there are so many
+different BASIC versions and dialects around, in most cases you will have to edit
+these files produced manually. But most of the work will already have been done
+by this converter.
+
+.PP
+For a desciption of the X11-Basic language and usage of the interpreter see
+.I xbasic(1)\fR.
+
+.SH Filenames
+
+.B bas2x11basic 
+processes input files with extention .bas. The default output filename is 
+.I b.bas\fR.
+
+.SH OPTIONS
+.TP
+.BR \-o " " \fIfile\fR
+Place output in file 
+.I file
+\&. 
+If you do not specify `\|\c
+.B \-o\c
+\&\|', the default is to use
+`\|\c
+.B b.bas\c
+\&\|'
+.TP
+.BR \-\-version
+shows version, program and other information and exits
+.TP
+.BR \-h ", " \-\-help
+print a short help.
+.PP
+For detailed help and description of the implemented basic commands take a look
+at the README file. 
+
+
+.SH EXAMPLES
+.nf
+bas2x11basic ansibasic.bas
+    produces an output file b.bas
+
+bas2x11basic ansibasic.bas -o newname.bas
+    produces an output file newname.bas
+.fi
+
+You can find some samples of former ANSI basic programs in 
+.I /usr/share/doc/packages/X11Basic/examples.
+
+.SH The ANSI Basic to X11-Basic converter
+
+Actually this converter is not yet complete. Further improvenents may be applied
+in future. Please let me know about ANSI-Basic programs which will not be
+converted.
+
+.SH VERSION
+Page was created for V.1.09
+
+.SH BUG REPORTS 
+
+If you find a bug in the ANSI Basic to X11-Basic converter, you should report
+it. But first, you should make sure that it really is a bug, and that it appears
+in the latest version of the X11-Basic package that you have.
+
+Once you have determined that a bug actually exists, mail a bug report to
+kollo@users.sourceforge.net. If you have a fix, you are welcome to mail that as
+well! Suggestions may be mailed to the X11-Basic bug tracking system.
+
+Comments and bug reports concerning this manual page should be directed to
+kollo@users.sourceforge.net.
+
+.SH AUTHOR
+Markus Hoffmann <kollo@users.sourceforge.net>
+
+.SH COPYRIGHT
+Copyright (C) 1997-2022 Markus Hoffmann <kollo@users.sourceforge.net>
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+.SH SEE ALSO
+x11basic(1), rsc2gui(1)

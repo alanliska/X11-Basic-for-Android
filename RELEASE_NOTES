@@ -1,0 +1,16 @@
+
+Release notes for Version 1.27 (June 2019 -- March 2021)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- removed VERSION and VERSION_DATE from library
+- new function REGEXP() and MATCH()
+- little fix for HELP, REM and DATA
+- New feature: ANS variable (store result of simple calculation)
+- New function VARLEN() 
+- New function CRC16() 
+- New mqtt commands BROKER, SUBSCRIBE, PUBLISH
+
+
+Release notes for Version 1.28 (Mar 2021 -- today)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- New TrueType Font support (SETFONT,TEXT,DEFTEXT)
+- several minor bugfixes

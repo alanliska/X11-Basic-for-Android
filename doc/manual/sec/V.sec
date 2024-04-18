@@ -1,0 +1,164 @@
+##############################################################################
+
+Function: VAL()
+Syntax:   a=VAL(t$)
+
+DESCRIPTION:
+
+	VAL() converts a string representing a floating point number into 
+	a numeric value. If the string does not represent a valid number
+	0 is returned.
+
+EXAMPLE:
+        a=VAL("3.1415926")
+
+SEE ALSO:  VAL?(),STR$()
+
+*#############################################################################
+
+Function: VAL?()
+Syntax:   a=VAL?(t$)
+
+DESCRIPTION:
+	Returns the number of characters from a string which can be converted 
+	into a number. 
+
+EXAMPLE:
+	PRINT VAL?("12345.67e12Hallo")     ! Result: 11
+	
+SEE ALSO:  VAL()
+##############################################################################
+Operator:   VAR
+Syntax:     PROCEDURE name(...,VAR a,...)
+            FUNCTION  name(...,VAR z,...)
+
+DESCRIPTION:
+
+	This operator can declare a variable in a parameter list of a procedure
+	or a function to be passed by reference instead of by value.
+	This is useful to pass (more than one) return values. 
+	
+
+EXAMPLE: 
+       @sum(13,12,a)
+       @sum(7,9,b)
+       PRINT a,b
+       '
+       PROCEDURE sum(x,y,VAR z)
+         z=x+y
+       RETURN
+
+
+SEE ALSO:   PROCEDURE, FUNCTION
+
+##############################################################################
+
+Function: VARIAT()
+Syntax:   a%=VARIAT(n%,k%)
+
+DESCRIPTION:
+	Returns the number of permutations of n elements to the k-th 
+        order without repetition.
+
+EXAMPLE:
+	PRINT VARIAT(6,2)      ! Result: 30
+
+SEE ALSO:  COMBIN(), FACT()
+
+##############################################################################
+
+Function:   VARLEN()
+Syntax:     a=VARLEN(<variable>)        
+
+DESCRIPTION:
+
+	Determines the length of the content of a variable in memory. 
+	For float variables usually 8 is returned, meaning, 8 bytes 
+	following the adress returned by VARPTR() belong to the variable. 
+	For string variables the length of the string content is returned. 
+	This is the same result as of LEN(var$) but the calculation is 
+	much faster for very long strings. 
+
+
+SEE ALSO: VARPTR(), PEEK(), POKE, ABSOLUTE
+##############################################################################
+
+Function:   VARPTR()
+Syntax:     adr%=VARPTR(<variable>)        
+
+DESCRIPTION:
+
+	Determines the address of the content of a variable in memory 
+	and returns a pointer. 
+	Usually this is used together with PEEK() and POKE to modify 
+	the content of the variable.
+	VARPTR() can also be used to determine the address of an 
+	array index.
+
+EXAMPLE:
+	PRINT VARPTR(t$),VARPTR(a(2,4))
+	POKE VARPTR(t$),ASC("A")
+
+SEE ALSO: VARLEN(), ARRPTR(), PEEK(), POKE, ABSOLUTE
+
+##############################################################################
+
+Command:    VERSION
+Syntax:     VERSION        
+
+DESCRIPTION:
+
+	Shows X11-Basic version number and date.
+
+EXAMPLE:
+	VERSION   
+	Result: X11-BASIC Version: 1.28 Mon Jun 04 12:00:38 CET 2020 	
+
+##############################################################################
+
+Command:  VOID        Abbrev.   ~
+Syntax:   VOID <expression>
+
+DESCRIPTION:
+
+	This command performs a calculation and forgets the result. Sounds 
+	silly but there are occasions when this command is required, e.g. 
+	when you want to execute a function but you are not really interested 
+	in the return value; e.g. waiting for a keystroke (INP(-2)).
+
+EXAMPLE:
+	~INP(-2)
+	VOID FORM_ALERT(1,"[1][Hello][OK]")
+
+SEE ALSO:  GOSUB
+##############################################################################
+Function:   VRFY()
+Syntax:     flag%=VRFY(message$,signature$,key$[,type])
+
+DESCRIPTION:
+
+	Returns TRUE (-1) if the digital signature in signature$ matches 
+	the message in message$ and the (public) key in key$. 
+	Otherwise FALSE (0) is returned.
+	signature$ must be a valid signature produced by SIGN$().
+
+COMMENT:
+	This function is only available in X11-Basic if encryption is 
+	compiled in (libgcrypt was present at compile time).
+
+SEE ALSO: SIGN$()
+##############################################################################
+Command:  VSYNC
+Syntax:   VSYNC
+
+DESCRIPTION:
+
+	Enables synchronization with the screen. Actually this is a synonym 
+	for SHOWPAGE. Graphic output will not be shown in the window until 
+	SHOWPAGE (or VSYNC). 
+        On the framebuffer version of X11-Basic (e.g. TomTom) this command
+        has no effect. 
+	
+SEE ALSO:  SHOWPAGE
+
+##############################################################################
